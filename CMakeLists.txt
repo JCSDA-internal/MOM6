@@ -124,6 +124,17 @@ ecbuild_add_library( TARGET   mom6
                      LINKER_LANGUAGE ${OOPS_LINKER_LANGUAGE}
                     )
 
+set ( mom6_exe_files
+    config_src/solo_driver/MOM_driver.F90
+)
+
+ecbuild_add_executable( TARGET   mom6.x
+                        SOURCES  ${mom6_exe_files}
+                        LIBS     ${MOM6_LIBRARIES}
+                        INCLUDES ${MOM6_INCLUDES}
+                        LINKER_LANGUAGE ${OOPS_LINKER_LANGUAGE}
+                       )
+
 ################################################################################
 # Finalise configuration
 ################################################################################
