@@ -13,25 +13,19 @@ else( )
   set( CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -qopenmp-stubs")
 endif( )
 
-####################################################################
-# BASE FLAGS (used by both RELEASE and DEBUG)
-####################################################################
-
-set( CMAKE_Fortran_FLAGS_BASE "-ftz -align all -fno-alias -traceback -r8 -stack_temps -safe_cray_ptr -assume byterecl -fp-model source -convert big_endian -fPIC -fpe0 -heap-arrays 32 -assume noold_maxminloc -align dcommons")
+set( CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -ftz -align all -fno-alias -traceback -r8 -stack_temps -safe_cray_ptr -assume byterecl -fp-model source -convert big_endian -fPIC -fpe0 -heap-arrays 32 -assume noold_maxminloc -align dcommons")
 
 ####################################################################
 # RELEASE FLAGS
 ####################################################################
 
-set( CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_BASE} -O3 -qopt-report0 -qno-offload" )
+set( CMAKE_Fortran_FLAGS_RELEASE "-O3 -qopt-report0 -qno-offload" )
 
 ####################################################################
 # DEBUG FLAGS
 ####################################################################
 
-#set( CMAKE_Fortran_FLAGS_DEBUG   "${CMAKE_Fortran_FLAGS_BASE} -g -O0 -debug -nolib-inline -fno-inline-functions -assume protect_parens,minus0 -prec-div -prec-sqrt -check bounds -check uninit -fp-stack-check -ftrapuv -warn unused -init=snan,arrays" )
-
-set( CMAKE_Fortran_FLAGS_DEBUG   "-O0 -r8 -g -check bounds -traceback -warn -heap-arrays -fpe-all=0 -fpe:0 -check assume -check format -check output_conversion -check pointers -check stack -check uninit" )
+set( CMAKE_Fortran_FLAGS_DEBUG   "-O0 -g -check bounds -warn -heap-arrays -fpe-all=0 -fpe:0 -check assume -check format -check output_conversion -check pointers -check stack -check uninit" )
 
 ####################################################################
 # BIT REPRODUCIBLE FLAGS
