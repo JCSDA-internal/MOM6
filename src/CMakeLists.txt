@@ -83,6 +83,7 @@ src/framework/MOM_safe_alloc.F90
 src/framework/MOM_spatial_means.F90
 src/framework/MOM_string_functions.F90
 src/framework/MOM_time_manager.F90
+src/framework/MOM_unit_scaling.F90
 src/framework/MOM_write_cputime.F90
 src/framework/version_variable.h
 src/ice_shelf/MOM_ice_shelf.F90
@@ -175,8 +176,9 @@ src/user/MOM_wave_interface.F90
 src/user/Neverland_initialization.F90
 src/user/Phillips_initialization.F90
 src/user/Rossby_front_2d_initialization.F90
-src/user/SCM_CVmix_tests.F90
-src/user/SCM_idealized_hurricane.F90
+src/user/SCM_CVMix_tests.F90
+#src/user/SCM_idealized_hurricane.F90
+src/user/Idealized_Hurricane.F90
 src/user/seamount_initialization.F90
 src/user/shelfwave_initialization.F90
 src/user/sloshing_initialization.F90
