@@ -9,7 +9,7 @@
 
 cmake_minimum_required( VERSION 3.3.2 FATAL_ERROR )
 
-project( mom6 C CXX Fortran )
+project( mom6 Fortran )
 
 set( CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake;${CMAKE_MODULE_PATH} )
 
@@ -29,9 +29,8 @@ ecbuild_requires_macro_version( 2.7 )
 ecbuild_declare_project()
 
 ecbuild_enable_fortran( REQUIRED )
-ecbuild_add_cxx11_flags()
 
-set( MOM6_LINKER_LANGUAGE CXX )
+set( MOM6_LINKER_LANGUAGE Fortran )
 
 ################################################################################
 # Dependencies
@@ -48,10 +47,21 @@ endif()
 # MPI
 ecbuild_add_option( FEATURE MPI DEFAULT ON
                     DESCRIPTION "Support for MPI distributed parallelism"
-                    REQUIRED_PACKAGES "MPI COMPONENTS CXX Fortran" )
-ecbuild_find_mpi( COMPONENTS CXX Fortran REQUIRED )
+                    REQUIRED_PACKAGES "MPI COMPONENTS Fortran" )
+ecbuild_find_mpi( COMPONENTS Fortran REQUIRED )
 ecbuild_include_mpi()
-link_libraries(${MPI_CXX_LIBRARIES} ${MPI_Fortran_LIBRARIES})
+link_libraries(${MPI_Fortran_LIBRARIES})
+
+# OpenMP
+ecbuild_add_option( FEATURE OMP
+                    DESCRIPTION "Support for OpenMP threaded parallelism"
+                    REQUIRED_PACKAGES "OMP COMPONENTS Fortran" )
+
+if( HAVE_OMP )
+  ecbuild_enable_omp()
+else()
+  ecbuild_enable_ompstubs()
+endif()
 
 # NetCDF
 set( NETCDF_F90 ON CACHE BOOL "Compile with Fortran NetCDF" )
@@ -82,8 +92,6 @@ include_directories( ${MOM6_DA_HOOKS_INCLUDE_DIRS} )
 # Definitions
 ################################################################################
 
-include( mom6_compiler_flags )
-
 ################################################################################
 # Export package info
 ################################################################################
@@ -106,6 +114,8 @@ endforeach()
 # Sources
 ################################################################################
 
+include( mom6_compiler_flags )
+
 include_directories( ${MOM6_INCLUDE_DIRS} ${MOM6_EXTRA_INCLUDE_DIRS} )
 
 add_subdirectory( config_src )
@@ -121,7 +131,7 @@ ecbuild_add_library( TARGET   mom6
                      LIBS     ${LAPACK_LIBRARIES} ${NETCDF_LIBRARIES} ${FMS_LIBRARIES} ${CVMIX_LIBRARIES} ${GEOKDTREE_LIBRARIES} ${MOM6_DA_HOOKS_LIBRARIES} ${GSW_LIBRARIES}
                      INCLUDES ${FMS_INCLUDES} ${CVMIX_INCLUDES} ${GEOKDTREE_INCLUDES} ${MOM6_DA_HOOKS_INCLUDES} ${GSW_INCLUDES}
                      INSTALL_HEADERS LISTED
-                     LINKER_LANGUAGE ${OOPS_LINKER_LANGUAGE}
+                     LINKER_LANGUAGE ${MOM6_LINKER_LANGUAGE}
                     )
 
 set ( mom6_exe_files
@@ -132,7 +142,7 @@ ecbuild_add_executable( TARGET   mom6.x
                         SOURCES  ${mom6_exe_files}
                         LIBS     ${MOM6_LIBRARIES}
                         INCLUDES ${MOM6_INCLUDES}
-                        LINKER_LANGUAGE ${OOPS_LINKER_LANGUAGE}
+                        LINKER_LANGUAGE ${MOM6_LINKER_LANGUAGE}
                        )
 
 ################################################################################
