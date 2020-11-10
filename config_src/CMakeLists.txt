@@ -1,7 +1,5 @@
 list ( APPEND _files
 config_src/dynamic/MOM_memory.h
-config_src/external/GFDL_ocean_BGC/generic_tracer.F90
-config_src/external/GFDL_ocean_BGC/generic_tracer_utils.F90
 config_src/external/ODA_hooks/kdtree.f90
 config_src/external/ODA_hooks/ocean_da_core.F90
 config_src/external/ODA_hooks/ocean_da_types.F90
@@ -11,6 +9,13 @@ config_src/solo_driver/MESO_surface_forcing.F90
 config_src/solo_driver/MOM_surface_forcing.F90
 config_src/solo_driver/user_surface_forcing.F90
 )
+
+if (NOT ${ENABLE_OCEAN_BGC})
+    list ( APPEND _files
+    config_src/external/GFDL_ocean_BGC/generic_tracer.F90
+    config_src/external/GFDL_ocean_BGC/generic_tracer_utils.F90
+    )
+endif ()
 
 set ( config_src_files
       ${_files}
