@@ -10,7 +10,7 @@ config_src/solo_driver/MOM_surface_forcing.F90
 config_src/solo_driver/user_surface_forcing.F90
 )
 
-if (NOT ${ENABLE_OCEAN_BGC})
+if ( NOT ENABLE_OCEAN_BGC )
     list ( APPEND _files
     config_src/external/GFDL_ocean_BGC/generic_tracer.F90
     config_src/external/GFDL_ocean_BGC/generic_tracer_utils.F90
